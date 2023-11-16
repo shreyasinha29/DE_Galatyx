@@ -10,32 +10,33 @@ from nltk.corpus import stopwords
 
 
 def main():
-    # Configuration
+    #configuration
     model_path = 'data/word2vec.bin'
     phrases_path = 'data/phrases.csv'
     output_path = 'output/distances.csv'
 
-    # Initialize components
+    #initialize components
     io_handler = IOHandler()
     word_embeddings = WordEmbeddings(model_path)
-    # phrase_processor = PhraseProcessor()
+    #phrase_processor = PhraseProcessor()
     distance_calculator = DistanceCalculator()
 
-    #Read and process phrases
+    #read and process phrases
     phrases_df = io_handler.read_phrases_csv(phrases_path)
     print("Phrases csv read")
     phrases = phrases_df['Phrases'].tolist()
-    processed_phrases = phrases
+    processed_phrases = phrases #placeholder for future phrase processing
     print("Pre Processed Phrases")
-    # Load word embeddings
+    
+    # load word embeddings
     word_embeddings_model = io_handler.read_word_embeddings_bin(model_path, limit=1000000)
     print("Word embeddings read")
 
-    # Calculate distances
+    #calculate distances
     print("L2 distance calculated")
     distances = calculate_distances(processed_phrases, word_embeddings_model, distance_calculator)
 
-    # Write distances to CSV
+    #write distances to CSV
     print("Output written! check distances csv")
     io_handler.write_distances_csv(distances, output_path)
 
@@ -43,7 +44,7 @@ def calculate_distances(processed_phrases, word_embeddings_model, distance_calcu
     distances = []
     for i, phrase1 in enumerate(processed_phrases):
         for j, phrase2 in enumerate(processed_phrases):
-            if i < j:  # Avoid redundant calculations
+            if i < j:  #avoid redundant calculations
                 vector1 = calculate_phrase_vector(phrase1, word_embeddings_model)
                 vector2 = calculate_phrase_vector(phrase2, word_embeddings_model)
                 similarity = distance_calculator.calculate_cosine_similarity(vector1, vector2)
