@@ -21,7 +21,7 @@ def main():
     # phrase_processor = PhraseProcessor()
     distance_calculator = DistanceCalculator()
 
-    # Step 1: Read and process phrases
+    #Read and process phrases
     phrases_df = io_handler.read_phrases_csv(phrases_path)
     print("Phrases csv read")
     phrases = phrases_df['Phrases'].tolist()
